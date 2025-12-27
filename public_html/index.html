@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SocialFlux — Crescimento para Redes Sociais</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background:#0B0E14;
+      color:#E5E7EB;
+      padding:20px;
+    }
+
+    .container {
+      max-width:1100px;
+      margin:0 auto;
+    }
+
+    /* Header */
+    .header {
+      text-align:center;
+      padding:60px 20px;
+    }
+
+    .header h1 {
+      font-size:3rem;
+      font-weight:800;
+      margin-bottom:15px;
+      letter-spacing:-1px;
+    }
+
+    .header span {
+      color:#F97316;
+    }
+
+    .header p {
+      color:#9CA3AF;
+      font-size:1.2rem;
+      max-width:600px;
+      margin:0 auto;
+    }
+
+    /* Card */
+    .card {
+      max-width:420px;
+      margin:40px auto;
+      background:#121826;
+      border-radius:18px;
+      padding:35px;
+      border:1px solid rgba(255,255,255,0.05);
+    }
+
+    .badge {
+      display:inline-block;
+      background:#F97316;
+      color:#0B0E14;
+      padding:6px 14px;
+      border-radius:999px;
+      font-size:0.8rem;
+      font-weight:700;
+      margin-bottom:20px;
+    }
+
+    .icon {
+      font-size:3.2rem;
+      color:#F97316;
+      margin-bottom:15px;
+    }
+
+    .card h2 {
+      font-size:1.8rem;
+      margin-bottom:10px;
+    }
+
+    .card p {
+      color:#9CA3AF;
+      margin-bottom:25px;
+      line-height:1.6;
+    }
+
+    ul {
+      list-style:none;
+      margin-bottom:25px;
+    }
+
+    ul li {
+      margin-bottom:10px;
+      display:flex;
+      gap:10px;
+      align-items:center;
+      color:#D1D5DB;
+    }
+
+    ul i {
+      color:#F97316;
+    }
+
+    .price {
+      font-size:3rem;
+      font-weight:800;
+      color:#F97316;
+      text-align:center;
+      margin-bottom:25px;
+    }
+
+    .price span {
+      font-size:1.2rem;
+      color:#9CA3AF;
+      vertical-align:top;
+    }
+
+    button {
+      width:100%;
+      padding:16px;
+      border-radius:14px;
+      border:none;
+      background:#F97316;
+      color:#0B0E14;
+      font-size:1.1rem;
+      font-weight:700;
+      cursor:pointer;
+      transition:.2s;
+    }
+
+    button:hover {
+      opacity:.9;
+      transform:translateY(-2px);
+    }
+
+    /* Responsive */
+    @media(max-width:600px){
+      .header h1 { font-size:2.2rem; }
+      .price { font-size:2.4rem; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Social<span>Flux</span></h1>
+      <p>Crescimento rápido e discreto para Instagram e TikTok</p>
+    </div>
+
+    <div class="card">
+      <div class="badge">PLANO MAIS VENDIDO</div>
+      <div class="icon"><i class="fas fa-users"></i></div>
+
+      <h2>Seguidores Premium</h2>
+      <p>Pacote avançado para quem quer autoridade imediata sem complicação.</p>
+
+      <ul>
+        <li><i class="fas fa-check"></i> Entrega rápida</li>
+        <li><i class="fas fa-check"></i> Perfis ativos</li>
+        <li><i class="fas fa-check"></i> Processo seguro</li>
+      </ul>
+
+      <div class="price">
+        <span>R$</span><span id="price-value">10,90</span>
+      </div>
+
+      <button onclick="comprar()">
+        Comprar agora
+      </button>
+    </div>
+  </div>
+
+  <script>
+    function getUrlParameter(name) {
+      const regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+      const results = regex.exec(location.search);
+      return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+    }
+
+    function formatarPreco(valorParam) {
+      if (!valorParam) return "10,90";
+      const n = valorParam.replace(/\D/g,'');
+      if (!n) return "10,90";
+      const v = n.length < 3 ? n + "00" : n;
+      return (parseInt(v)/100).toFixed(2).replace('.',',');
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('price-value').textContent =
+        formatarPreco(getUrlParameter('valor'));
+    });
+
+    function comprar(){
+      const valor = document.getElementById('price-value').textContent;
+      window.location.href = `pagar.html?valor=${encodeURIComponent(valor)}`;
+    }
+  </script>
+</body>
+</html>

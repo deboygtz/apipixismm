@@ -1,0 +1,17 @@
+{
+  "showNome": true,
+  "showEmail": false,
+  "showCpfCnpj": false,
+  "showCelular": true,
+  "showEntrega": false,
+  "valorProduto": "19.90",
+  "nomeProduto": "Trex Pay",
+  "imagemProduto": "https://akns-images.eonline.com/eol_images/Entire_Site/20241013/cr_1200x1200-241113062651-GettyImages-1088051728.jpg?fit=around%7C1200:1200&output-quality=90&crop=1200:1200;center,top",
+  "corBotaoComprar": "#FF0000",
+  "textoBotaoComprar": "Comprar",
+  "bannerUrl": "https://blog.enricoboaretto.com/wp-content/uploads/2022/10/image-1.png",
+
+  "token": "Seu Secret",
+  "secret": "Seu Secret",
+  "utmifyToken": "Credenciais UTMify"
+}

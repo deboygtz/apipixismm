@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pagamento via Pix</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      max-width: 480px;
+      margin: 20px auto;
+      padding: 16px;
+      color: #222;
+      background-color: #fff;
+    }
+
+    h1, h3 {
+      text-align: center;
+      margin: 0 0 10px;
+    }
+
+    .timer, .qr-container, .status, .aprov-info, .copiar, .passos, .alerta {
+      margin: 24px 0;
+      text-align: center;
+    }
+
+    .timer .flex {
+      display: flex;
+      justify-content: center;
+      gap: 4px;
+    }
+
+    .timer .flex div {
+      width: 48px;
+      height: 48px;
+      background: #f43f5e;
+      color: #fff;
+      font-weight: bold;
+      font-size: 1.5rem;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .qr-container img {
+      width: 204px;
+      height: 204px;
+      border: 2px dashed #ccc;
+      border-radius: 16px;
+      padding: 8px;
+      background: #f9f9f9;
+    }
+
+    .status img {
+      width: 32px;
+      margin-top: 8px;
+    }
+
+    .aprov-info {
+      color: #059669;
+      border: 1.5px solid #059669;
+      background: #f0fdf4;
+      padding: 10px 12px;
+      border-radius: 12px;
+      font-weight: 500;
+      font-size: 0.95rem;
+    }
+
+    .alerta {
+      color: #b45309;
+      border: 1.5px solid #facc15;
+      background: #fefce8;
+      padding: 10px 12px;
+      border-radius: 12px;
+      font-size: 0.95rem;
+      display: flex;
+      gap: 8px;
+      text-align: left;
+    }
+
+    .alerta svg {
+      width: 20px;
+      fill: #facc15;
+      flex-shrink: 0;
+    }
+
+    .copiar button {
+      border: 2px solid #059669;
+      color: #059669;
+      background: #fff;
+      padding: 12px 18px;
+      font-size: 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: background 0.3s;
+    }
+
+    .copiar button:hover {
+      background: #f0fdf4;
+    }
+
+    .copiar button.copied {
+      background: #059669;
+      color: white;
+    }
+
+    .passos {
+      text-align: left;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    .passos p::before {
+      content: attr(data-num) " ";
+      color: #059669;
+      font-weight: bold;
+    }
+
+    .success { color: #059669; }
+    .error { color: #dc2626; }
+    .waiting { color: #d97706; }
+    .hidden { display: none !important; }
+  </style>
+</head>
+
+<body>
+
+<h1>PIX gerado com sucesso!</h1>
+<h3>Agora é só finalizar o pagamento</h3>
+
+<!-- TIMER -->
+<div class="timer">
+  <div>Este código expirará em:</div>
+  <div class="flex" id="timer-container">
+    <div id="min">12</div>
+    <span style="display:flex;align-items:center;">:</span>
+    <div id="sec">00</div>
+  </div>
+  <div id="expirado" class="hidden" style="color:red;font-weight:bold;">
+    ⚠️ O código expirou, gere um novo Pix.
+  </div>
+</div>
+
+<!-- QR CODE -->
+<div class="qr-container">
+  <img id="pix-qrcode" alt="QR Code Pix">
+</div>
+
+<!-- STATUS -->
+<div class="status">
+  <div id="status-text">Aguardando pagamento...</div>
+  <img id="status-loader" src="https://pay.cakto.com.br/assets/loader.svg">
+</div>
+
+<div class="aprov-info">
+  A aprovação leva no máximo 2 minutos
+</div>
+
+<!-- COPIAR -->
+<div class="copiar">
+  <button id="btn-copiar">
+    <img src="https://pay.cakto.com.br/assets/copy-green.svg" width="18">
+    Copiar código Pix
+  </button>
+</div>
+
+<!-- PASSOS -->
+<div class="passos">
+  <p data-num="1">Abra o app do seu banco e entre na opção <strong>Pix</strong></p>
+  <p data-num="2">Escolha <strong>Pagar / Pix copia e cola</strong></p>
+  <p data-num="3">Escaneie o <strong>QR Code</strong> ou cole o código</p>
+  <p data-num="4">Confirme o pagamento</p>
+</div>
+
+<div class="alerta">
+  <svg viewBox="0 0 20 20">
+    <path d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625z"/>
+  </svg>
+  Os bancos reforçaram a segurança do Pix e podem exibir avisos preventivos. Não se preocupe, sua transação está protegida.
+</div>
+
+<!-- GERA PIX PELO VALOR DA URL -->
+<script>
+(async () => {
+  const params = new URLSearchParams(window.location.search);
+  const valor = params.get("valor");
+
+  if (!valor) {
+    alert("Valor não informado");
+    return;
+  }
+
+  const res = await fetch("gerar_pix.php?valor=" + encodeURIComponent(valor));
+  const data = await res.json();
+
+  if (!data.success) {
+    alert("Erro ao gerar Pix");
+    return;
+  }
+
+  sessionStorage.setItem("pixId", data.idTransaction);
+  sessionStorage.setItem("pixPayload", data.pixPayload);
+  sessionStorage.setItem("pixBase64", data.pixImage);
+
+  document.getElementById("pix-qrcode").src = data.pixImage;
+})();
+</script>
+
+<!-- TIMER -->
+<script>
+let minutos = 12, segundos = 0;
+setInterval(() => {
+  if (segundos === 0) {
+    if (minutos === 0) {
+      document.getElementById("timer-container").classList.add("hidden");
+      document.getElementById("expirado").classList.remove("hidden");
+      return;
+    }
+    minutos--; segundos = 59;
+  } else segundos--;
+
+  min.textContent = String(minutos).padStart(2, "0");
+  sec.textContent = String(segundos).padStart(2, "0");
+}, 1000);
+</script>
+
+<!-- COPIAR PIX - CÓDIGO CORRIGIDO -->
+<script>
+document.getElementById('btn-copiar').addEventListener('click', async () => {
+  const pixPayload = sessionStorage.getItem("pixPayload");
+  const btn = document.getElementById('btn-copiar');
+  
+  if (!pixPayload) {
+    alert("Código Pix indisponível. Por favor, recarregue a página.");
+    return;
+  }
+
+  try {
+    await navigator.clipboard.writeText(pixPayload);
+    
+    // Feedback visual
+    btn.innerHTML = '<img src="https://pay.cakto.com.br/assets/copy-green.svg" width="18"> ✅ Código copiado!';
+    btn.classList.add('copied');
+    
+    // Restaura após 3 segundos
+    setTimeout(() => {
+      btn.innerHTML = '<img src="https://pay.cakto.com.br/assets/copy-green.svg" width="18"> Copiar código Pix';
+      btn.classList.remove('copied');
+    }, 3000);
+    
+  } catch (err) {
+    console.error('Erro ao copiar:', err);
+    
+    // Fallback para navegadores mais antigos
+    const textArea = document.createElement('textarea');
+    textArea.value = pixPayload;
+    document.body.appendChild(textArea);
+    textArea.select();
+    document.execCommand('copy');
+    document.body.removeChild(textArea);
+    
+    btn.innerHTML = '<img src="https://pay.cakto.com.br/assets/copy-green.svg" width="18"> ✅ Código copiado! (Fallback)';
+    btn.classList.add('copied');
+    
+    setTimeout(() => {
+      btn.innerHTML = '<img src="https://pay.cakto.com.br/assets/copy-green.svg" width="18"> Copiar código Pix';
+      btn.classList.remove('copied');
+    }, 3000);
+  }
+});
+</script>
+
+<!-- STATUS -->
+<script>
+async function verificarStatus() {
+  const id = sessionStorage.getItem("pixId");
+  if (!id) return;
+
+  const res = await fetch("consultar_status.php", {
+    method: "POST",
+    headers: {"Content-Type":"application/json"},
+    body: JSON.stringify({ idTransaction: id })
+  });
+
+  const data = await res.json();
+
+  if (data.status === "PAID_OUT") {
+    document.getElementById("status-text").textContent = "✅ Pagamento confirmado!";
+    setTimeout(() => location.href = "sucesso.html", 2000);
+    return true;
+  }
+
+  return false;
+}
+
+setInterval(verificarStatus, 5000);
+</script>
+
+</body>
+</html>

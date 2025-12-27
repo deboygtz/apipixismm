@@ -1,0 +1,379 @@
+/* FONTES E BODY (seu original) */
+@font-face {
+  font-family: 'GeistSans';
+  src: url('Fonts/GeistRegular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'GeistSans';
+  src: url('Fonts/GeistSemiBold.otf') format('opentype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'GeistSans';
+  src: url('Fonts/GeistBold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+body {
+  font-family: 'GeistSans', sans-serif;
+  background-color: #ffffff;
+  padding: 20px;
+  font-size: 16px; /* desktop font size */
+  margin: 0;
+  display: flex;
+  justify-content: center;
+}
+
+@media (max-width: 768px) {
+  body {
+    font-size: 15px; /* leve aumento para melhor legibilidade */
+    padding: 15px; /* reduzido para não "apertar" */
+    justify-content: center; /* centraliza no mobile */
+  }
+}
+
+main {
+  max-width: 500px;
+  width: 100%;
+  margin: 0 15px; /* espaço lateral para não grudar nas bordas */
+}
+
+@media (max-width: 768px) {
+  main {
+    max-width: 100%; /* ocupa toda largura possível no mobile */
+    margin: 0 10px;
+  }
+}
+
+h3, label {
+  font-weight: normal;
+  font-family: 'GeistSans', sans-serif;
+  color: oklch(0.145 0 0);
+}
+
+h3 {
+  text-decoration: none;
+  margin-top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 16px;
+  font-size: 18px;
+}
+
+@media (max-width: 768px) {
+  h3 {
+    font-size: 18px; /* mantive o mesmo para dar mais destaque */
+    padding-bottom: 12px;
+  }
+}
+
+h3 span.small {
+  font-size: 10px;
+  color: gray;
+  font-weight: normal;
+  margin-left: auto;
+}
+
+label {
+  display: block;
+  margin-top: 15px;
+  font-size: 16px;
+}
+
+@media (max-width: 768px) {
+  label {
+    font-size: 15px; /* levemente maior que antes */
+  }
+}
+
+input, select {
+  width: 100%;
+  padding: 10px 10px;
+  margin-top: 5px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-family: 'GeistSans', sans-serif;
+  box-sizing: border-box;
+  font-size: 16px;
+  outline-offset: -2px;
+  height: 40px; /* um pouco maior para toque melhor */
+  line-height: 1.2;
+}
+
+@media (max-width: 768px) {
+  input, select {
+    font-size: 15px; /* aumentei para facilitar leitura */
+    height: 40px; /* mantive o maior para toque */
+  }
+}
+
+.error {
+  color: red;
+  font-size: 12px;
+  margin-top: -8px;
+  margin-bottom: 10px;
+  display: none;
+}
+
+.pix-box {
+  padding: 20px 0 0 0;
+  border-top: 1px solid #e0e0e0;
+  display: flex;
+  justify-content: center;
+}
+
+.pix-box-inner {
+  width: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+}
+
+.pix-box-inner svg {
+  height: 28px;
+  width: auto;
+  color: inherit;
+}
+
+.footer-info {
+  font-size: 12px;
+  color: #000;
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: normal;
+  border-top: 1px solid #e0e0e0;
+  padding-top: 12px;
+}
+
+.footer-info svg {
+  flex-shrink: 0;
+  stroke-width: 1.5;
+  height: 18px;
+  width: 18px;
+  color: #1F2937;
+  margin-top: 0;
+}
+
+.footer-info > div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+  line-height: 1.3;
+}
+
+.footer-info > div > small {
+  font-size: 12px;
+  color: #444;
+  font-weight: normal;
+  margin: 0;
+}
+
+.total {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 14px;
+}
+
+.total strong {
+  color: #000;
+  font-weight: bold;
+}
+
+.embed {
+  margin-bottom: 20px;
+  padding: 20px;
+  background: #ffffff;
+  border-radius: 5px;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.produto {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 20px;
+  border-top: 1px solid #e0e0e0;
+  padding-top: 15px;
+}
+
+.produto img {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.produto-info {
+  flex: 1;
+}
+
+.produto-info strong {
+  font-size: 14px;
+}
+
+.produto-info span {
+  display: block;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.produto .badge {
+  background: #e5fbe7;
+  color: green;
+  font-size: 12px;
+  padding: 2px 6px;
+  border-radius: 5px;
+  margin-left: auto;
+  align-self: center;
+}
+
+.buy-btn {
+  background: #00aaff;
+  color: #ffffff;
+  padding: 15px;
+  border: none;
+  width: 100%;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 15px;
+  font-family: 'GeistSans', sans-serif;
+}
+
+@media (max-width: 768px) {
+  .buy-btn {
+    font-size: 16px; /* aumentei para mobile */
+    padding: 15px;
+  }
+}
+
+.buy-btn:hover {
+  background: #0092dd;
+}
+
+.terms {
+  font-size: 11px; /* leve aumento */
+  text-align: center;
+  margin-top: 10px;
+  color: #666;
+}
+
+.terms a {
+  color: #000;
+  text-decoration: underline;
+}
+
+.phone-group {
+  margin-top: 5px;
+}
+
+.phone-input-wrapper {
+  display: flex;
+  width: 100%;
+  max-width: 100%;
+  font-family: 'GeistSans', sans-serif;
+  font-size: 16px;
+  height: 38px;
+}
+
+.phone-prefix {
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-right: none;
+  border-radius: 5px 0 0 5px;
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  gap: 8px;
+  height: 38px;
+  box-sizing: border-box;
+  color: #000;
+  flex-shrink: 0;
+  user-select: none;
+  font-size: 16px;
+  line-height: 1;
+}
+
+@media (max-width: 768px) {
+  .phone-prefix {
+    font-size: 14px;
+    height: 34px;
+    padding: 0 8px;
+    gap: 6px;
+  }
+}
+
+.phone-prefix svg {
+  height: 18px;
+  width: auto;
+  flex-shrink: 0;
+}
+
+.phone-input {
+  flex: 1;
+  border-radius: 0 5px 5px 0;
+  border: 1px solid #ccc;
+  padding: 10px 10px;
+  font-family: 'GeistSans', sans-serif;
+  font-size: 16px;
+  outline-offset: -2px;
+  box-sizing: border-box;
+  height: 38px;
+  line-height: 1.2;
+}
+
+@media (max-width: 768px) {
+  .phone-input {
+    font-size: 14px;
+    height: 34px;
+  }
+}
+
+/* ========================= */
+/* NOVO: BANNER NO TOPO DO SITE */
+/* ========================= */
+
+#top-banner {
+  margin-bottom: 20px;
+  padding: 12px 0px; /* um pouco mais de padding lateral */
+  border-radius: 8px;
+  background-color: #f9fafb;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  box-sizing: border-box;
+  border: none;
+  box-shadow: none;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+
+#top-banner img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 6px;
+  display: block;
+  user-select: none;
+  pointer-events: none;
+}
